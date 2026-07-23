@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Transaction Anomaly Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Transaction Feed</h1>
+    <div id="stats">
+      <span id="stat-total">Total: -</span>
+      <span id="stat-anomalies">Anomalies: -</span>
+      <span id="stat-rate">Rate: -</span>
+    </div>
+  </header>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Amount</th>
+        <th>Category</th>
+        <th>Score</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="transaction-rows">
+      <!-- rows inserted by app.js -->
+    </tbody>
+  </table>
+
+  <script src="app.js"></script>
+</body>
+</html>

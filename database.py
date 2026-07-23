@@ -62,23 +62,29 @@ def insert_transaction(transaction, is_anomaly, anomaly_score):
 
 
 def get_recent(limit=50):
-    """Most recent transactions, newest first."""
+    """
+    Most recently INSERTED transactions, newest first.
+    Ordered by rowid (SQLite's built-in insertion-order column), not by the
+    transaction's own timestamp - transaction_generator.py assigns random
+    timestamps within the last day, so sorting by timestamp doesn't
+    reflect the order transactions actually arrived in.
+    """
     conn = get_connection()
     rows = conn.execute(
-        "SELECT * FROM transactions ORDER BY timestamp DESC LIMIT ?", (limit,)
+        "SELECT * FROM transactions ORDER BY rowid DESC LIMIT ?", (limit,)
     ).fetchall()
     conn.close()
     return [dict(row) for row in rows]
 
 
 def get_anomalies(limit=50):
-    """Most recent flagged transactions only."""
+    """Most recently inserted flagged transactions only."""
     conn = get_connection()
     rows = conn.execute(
         """
         SELECT * FROM transactions
         WHERE is_anomaly = 1
-        ORDER BY timestamp DESC LIMIT ?
+        ORDER BY rowid DESC LIMIT ?
         """,
         (limit,),
     ).fetchall()
