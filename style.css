@@ -1,54 +1,195 @@
+:root {
+  --bg: #0a0e14;
+  --panel-bg: #10151f;
+  --border: #1e2735;
+  --text: #c9d6e3;
+  --muted: #5c6b7f;
+  --cyan: #00e5ff;
+  --green: #00ff9d;
+  --red: #ff3b5c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: -apple-system, "Segoe UI", sans-serif;
-  max-width: 800px;
-  margin: 40px auto;
-  color: #222;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+  position: relative;
+}
+
+/* subtle CRT scanline overlay for the terminal feel */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  z-index: 1000;
 }
 
 header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 20px;
+  align-items: center;
+  margin-bottom: 28px;
 }
 
-#stats span {
-  margin-left: 16px;
-  font-size: 14px;
-  color: #555;
+.title-block {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+h1 {
+  font-size: 22px;
+  letter-spacing: 3px;
+  margin: 0;
+  color: var(--cyan);
+  text-shadow: 0 0 12px rgba(0, 229, 255, 0.5);
+}
+
+.live-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--green);
+  border: 1px solid var(--green);
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: blink 1.4s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+#last-updated {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 18px 20px;
+}
+
+.stat-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--cyan);
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.35);
+}
+
+.stat-anomaly .stat-value {
+  color: var(--red);
+  text-shadow: 0 0 10px rgba(255, 59, 92, 0.45);
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--muted);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-}
-
-th, td {
-  text-align: left;
-  padding: 8px 12px;
-  border-bottom: 1px solid #eee;
+  font-size: 13px;
 }
 
 th {
-  font-size: 12px;
-  text-transform: uppercase;
-  color: #888;
+  text-align: left;
+  padding: 10px 18px;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
 }
 
-tr.anomaly {
-  background-color: #fdecea;
+td {
+  padding: 9px 18px;
+  border-bottom: 1px solid var(--border);
 }
 
-tr.anomaly td:last-child {
-  color: #c0392b;
-  font-weight: 600;
+tr.anomaly td {
+  color: var(--red);
 }
 
-tr.normal {
-  background-color: #eafaf1;
+tr.normal td {
+  color: var(--text);
 }
 
 tr.normal td:last-child {
-  color: #27ae60;
+  color: var(--green);
+}
+
+tr.anomaly td:last-child {
+  color: var(--red);
   font-weight: 600;
+}
+
+/* pulse animation for a row the first moment it's seen as an anomaly */
+tr.flash {
+  animation: flash-in 1.6s ease-out;
+}
+
+@keyframes flash-in {
+  0% {
+    background-color: rgba(255, 59, 92, 0.35);
+    box-shadow: inset 0 0 20px rgba(255, 59, 92, 0.4);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: none;
+  }
 }

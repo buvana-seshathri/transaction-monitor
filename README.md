@@ -148,3 +148,9 @@ docker compose down
   spread of data), so they don't reflect actual arrival order. `database.py`
   sorts by SQLite's built-in insertion-order column instead, so the
   dashboard reflects what actually just streamed in.
+- **Dashboard styling:** dark "SOC" (Security Operations Center) theme -
+  monospace font, glowing stat cards, subtle CRT scanline overlay, and a
+  one-time pulse animation the moment a new anomaly is first seen (tracked
+  client-side in `app.js` so it doesn't re-flash on every poll). The table
+  view is kept intact underneath the stat cards - full detail, not just
+  visual flair.

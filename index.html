@@ -2,33 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Transaction Anomaly Dashboard</title>
+  <title>TXN-MONITOR // Live Anomaly Feed</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="scanlines"></div>
+
   <header>
-    <h1>Transaction Feed</h1>
-    <div id="stats">
-      <span id="stat-total">Total: -</span>
-      <span id="stat-anomalies">Anomalies: -</span>
-      <span id="stat-rate">Rate: -</span>
+    <div class="title-block">
+      <h1>TXN-MONITOR</h1>
+      <div class="live-badge">
+        <span class="dot"></span>
+        LIVE
+      </div>
     </div>
+    <div id="last-updated">-</div>
   </header>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Time</th>
-        <th>Amount</th>
-        <th>Category</th>
-        <th>Score</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody id="transaction-rows">
-      <!-- rows inserted by app.js -->
-    </tbody>
-  </table>
+  <section class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">TOTAL TRANSACTIONS</div>
+      <div class="stat-value" id="stat-total">0</div>
+    </div>
+    <div class="stat-card stat-anomaly">
+      <div class="stat-label">ANOMALIES FLAGGED</div>
+      <div class="stat-value" id="stat-anomalies">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">ANOMALY RATE</div>
+      <div class="stat-value" id="stat-rate">0%</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <span>TRANSACTION FEED</span>
+      <span class="panel-sub">polling every 3s</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Amount</th>
+          <th>Category</th>
+          <th>Score</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="transaction-rows">
+        <!-- rows inserted by app.js -->
+      </tbody>
+    </table>
+  </section>
 
   <script src="app.js"></script>
 </body>
